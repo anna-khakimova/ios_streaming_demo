@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52D4DF8C1C984435007B9D5D /* icon_record.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D4DF8A1C984435007B9D5D /* icon_record.png */; };
+		52D4DF8D1C984435007B9D5D /* icon_stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D4DF8B1C984435007B9D5D /* icon_stop.png */; };
 		841255A116A035E3001749D9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255A016A035E3001749D9 /* UIKit.framework */; };
 		841255A316A035E3001749D9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255A216A035E3001749D9 /* Foundation.framework */; };
 		841255A516A035E3001749D9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255A416A035E3001749D9 /* CoreGraphics.framework */; };
@@ -18,7 +20,7 @@
 		841255B716A035E3001749D9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 841255B616A035E3001749D9 /* Default-568h@2x.png */; };
 		841255BA16A035E3001749D9 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841255B816A035E3001749D9 /* MainStoryboard_iPhone.storyboard */; };
 		841255BD16A035E3001749D9 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841255BB16A035E3001749D9 /* MainStoryboard_iPad.storyboard */; };
-		841255C016A035E3001749D9 /* EncoderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841255BF16A035E3001749D9 /* EncoderDemoViewController.m */; };
+		841255C016A035E3001749D9 /* EncoderDemoViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 841255BF16A035E3001749D9 /* EncoderDemoViewController.mm */; };
 		841255C716A035F1001749D9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255C616A035F1001749D9 /* AVFoundation.framework */; };
 		841255C916A035F9001749D9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255C816A035F9001749D9 /* CoreMedia.framework */; };
 		841255CB16A09114001749D9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255CA16A09114001749D9 /* CoreVideo.framework */; };
@@ -33,6 +35,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		52D4DF8A1C984435007B9D5D /* icon_record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_record.png; sourceTree = SOURCE_ROOT; };
+		52D4DF8B1C984435007B9D5D /* icon_stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_stop.png; sourceTree = SOURCE_ROOT; };
+		52D4DF8E1C984C44007B9D5D /* vmf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vmf.framework; path = "../../iOS_Sample/ios-sample/vmf.framework"; sourceTree = "<group>"; };
+		52D4DFC31C9BFC7F007B9D5D /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		8412559C16A035E3001749D9 /* Encoder Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Encoder Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		841255A016A035E3001749D9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		841255A216A035E3001749D9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -49,7 +55,7 @@
 		841255B916A035E3001749D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		841255BC16A035E3001749D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		841255BE16A035E3001749D9 /* EncoderDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EncoderDemoViewController.h; sourceTree = "<group>"; };
-		841255BF16A035E3001749D9 /* EncoderDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EncoderDemoViewController.m; sourceTree = "<group>"; };
+		841255BF16A035E3001749D9 /* EncoderDemoViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EncoderDemoViewController.mm; sourceTree = "<group>"; };
 		841255C616A035F1001749D9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		841255C816A035F9001749D9 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		841255CA16A09114001749D9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -111,6 +117,7 @@
 		8412559F16A035E3001749D9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52D4DF8E1C984C44007B9D5D /* vmf.framework */,
 				841255A016A035E3001749D9 /* UIKit.framework */,
 				841255A216A035E3001749D9 /* Foundation.framework */,
 				841255A416A035E3001749D9 /* CoreGraphics.framework */,
@@ -121,12 +128,13 @@
 		841255A616A035E3001749D9 /* Encoder Demo */ = {
 			isa = PBXGroup;
 			children = (
+				52D4DFC31C9BFC7F007B9D5D /* Location.h */,
 				841255AF16A035E3001749D9 /* EncoderDemoAppDelegate.h */,
 				841255B016A035E3001749D9 /* EncoderDemoAppDelegate.m */,
 				841255B816A035E3001749D9 /* MainStoryboard_iPhone.storyboard */,
 				841255BB16A035E3001749D9 /* MainStoryboard_iPad.storyboard */,
 				841255BE16A035E3001749D9 /* EncoderDemoViewController.h */,
-				841255BF16A035E3001749D9 /* EncoderDemoViewController.m */,
+				841255BF16A035E3001749D9 /* EncoderDemoViewController.mm */,
 				846119C516D3BF8D00468D98 /* CameraServer.h */,
 				846119C616D3BF8D00468D98 /* CameraServer.m */,
 				841255DD16A85477001749D9 /* RTSP */,
@@ -139,6 +147,8 @@
 		841255A716A035E3001749D9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				52D4DF8A1C984435007B9D5D /* icon_record.png */,
+				52D4DF8B1C984435007B9D5D /* icon_stop.png */,
 				841255A816A035E3001749D9 /* Encoder Demo-Info.plist */,
 				841255A916A035E3001749D9 /* InfoPlist.strings */,
 				841255AC16A035E3001749D9 /* main.m */,
@@ -235,6 +245,8 @@
 				841255B516A035E3001749D9 /* Default@2x.png in Resources */,
 				841255B716A035E3001749D9 /* Default-568h@2x.png in Resources */,
 				841255BA16A035E3001749D9 /* MainStoryboard_iPhone.storyboard in Resources */,
+				52D4DF8C1C984435007B9D5D /* icon_record.png in Resources */,
+				52D4DF8D1C984435007B9D5D /* icon_stop.png in Resources */,
 				841255BD16A035E3001749D9 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,7 +260,7 @@
 			files = (
 				841255AD16A035E3001749D9 /* main.m in Sources */,
 				841255B116A035E3001749D9 /* EncoderDemoAppDelegate.m in Sources */,
-				841255C016A035E3001749D9 /* EncoderDemoViewController.m in Sources */,
+				841255C016A035E3001749D9 /* EncoderDemoViewController.mm in Sources */,
 				841255CE16A47A7D001749D9 /* AVEncoder.mm in Sources */,
 				841255D116A4848E001749D9 /* VideoEncoder.m in Sources */,
 				841255D616A5AB8B001749D9 /* MP4Atom.m in Sources */,
@@ -345,9 +357,15 @@
 		841255C416A035E3001749D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Encoder Demo/Encoder Demo-Prefix.pch";
 				INFOPLIST_FILE = "Encoder Demo/Encoder Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -356,9 +374,15 @@
 		841255C516A035E3001749D9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Encoder Demo/Encoder Demo-Prefix.pch";
 				INFOPLIST_FILE = "Encoder Demo/Encoder Demo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
