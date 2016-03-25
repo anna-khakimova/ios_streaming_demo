@@ -69,6 +69,7 @@ static CameraServer* theServer;
         [_encoder encodeWithBlock:^int(NSArray* data, double pts) {
             if (_rtsp != nil)
             {
+                _rtsp.firstpts = [_encoder firstpts];
                 _rtsp.bitrate = _encoder.bitspersecond;
                 [_rtsp onVideoData:data time:pts];
             }

@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
+//#import <CoreLocation/CoreLocation.h>
 
-@interface EncoderDemoViewController : UIViewController<CLLocationManagerDelegate>
+@interface EncoderDemoViewController : UIViewController//<CLLocationManagerDelegate>
 {
     long long startUtcRecordTime;
 }
@@ -17,7 +17,7 @@
 @property (retain, nonatomic) IBOutlet UIButton *RecordButton;
 @property (strong, nonatomic) IBOutlet UILabel *serverAddress;
 
-- (IBAction)toggleRecording:(id)sender;
+//- (IBAction)toggleStreaming:(id)sender;
 - (void) startPreview;
 
 @end

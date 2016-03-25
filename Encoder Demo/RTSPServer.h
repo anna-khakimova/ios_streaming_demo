@@ -23,5 +23,6 @@
 - (void) shutdownServer;
 
 @property (readwrite, atomic) int bitrate;
+@property (readwrite, atomic) double firstpts;
 
 @end

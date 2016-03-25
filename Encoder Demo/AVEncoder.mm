@@ -104,6 +104,7 @@ static unsigned int to_host(unsigned char* p)
 @implementation AVEncoder
 
 @synthesize bitspersecond = _bitspersecond;
+@synthesize firstpts = _firstpts;
 
 + (AVEncoder*) encoderForHeight:(int) height andWidth:(int) width
 {
