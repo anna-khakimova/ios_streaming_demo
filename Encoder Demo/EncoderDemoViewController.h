@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CameraServer.h"
 //#import <CoreLocation/CoreLocation.h>
 
-@interface EncoderDemoViewController : UIViewController//<CLLocationManagerDelegate>
-{
-    long long startUtcRecordTime;
-}
+@interface EncoderDemoViewController : UIViewController <CameraServerDelegate>
 @property (strong, nonatomic) IBOutlet UIView *cameraView;
 @property (retain, nonatomic) IBOutlet UIButton *RecordButton;
 @property (strong, nonatomic) IBOutlet UILabel *serverAddress;

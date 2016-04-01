@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5200CE1F1CA93B2600AEE313 /* vmf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5200CE1E1CA93B2600AEE313 /* vmf.framework */; };
+		5200CE211CA978EB00AEE313 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5200CE201CA978EB00AEE313 /* CoreLocation.framework */; };
 		52D4DF8C1C984435007B9D5D /* icon_record.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D4DF8A1C984435007B9D5D /* icon_record.png */; };
 		52D4DF8D1C984435007B9D5D /* icon_stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 52D4DF8B1C984435007B9D5D /* icon_stop.png */; };
 		841255A116A035E3001749D9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255A016A035E3001749D9 /* UIKit.framework */; };
@@ -19,8 +21,7 @@
 		841255B516A035E3001749D9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 841255B416A035E3001749D9 /* Default@2x.png */; };
 		841255B716A035E3001749D9 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 841255B616A035E3001749D9 /* Default-568h@2x.png */; };
 		841255BA16A035E3001749D9 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841255B816A035E3001749D9 /* MainStoryboard_iPhone.storyboard */; };
-		841255BD16A035E3001749D9 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 841255BB16A035E3001749D9 /* MainStoryboard_iPad.storyboard */; };
-		841255C016A035E3001749D9 /* EncoderDemoViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 841255BF16A035E3001749D9 /* EncoderDemoViewController.mm */; };
+		841255C016A035E3001749D9 /* EncoderDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841255BF16A035E3001749D9 /* EncoderDemoViewController.m */; };
 		841255C716A035F1001749D9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255C616A035F1001749D9 /* AVFoundation.framework */; };
 		841255C916A035F9001749D9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255C816A035F9001749D9 /* CoreMedia.framework */; };
 		841255CB16A09114001749D9 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841255CA16A09114001749D9 /* CoreVideo.framework */; };
@@ -28,16 +29,17 @@
 		841255D116A4848E001749D9 /* VideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 841255D016A4848E001749D9 /* VideoEncoder.m */; };
 		841255D616A5AB8B001749D9 /* MP4Atom.m in Sources */ = {isa = PBXBuildFile; fileRef = 841255D516A5AB8B001749D9 /* MP4Atom.m */; };
 		841255D916A714B7001749D9 /* NALUnit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 841255D716A714B7001749D9 /* NALUnit.cpp */; };
-		841255DC16A85472001749D9 /* RTSPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 841255DB16A85472001749D9 /* RTSPServer.m */; };
+		841255DC16A85472001749D9 /* RTSPServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 841255DB16A85472001749D9 /* RTSPServer.mm */; };
 		841255E516B14E45001749D9 /* RTSPClientConnection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 841255E416B14E45001749D9 /* RTSPClientConnection.mm */; };
 		841399FA16B1842B00FAD610 /* RTSPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 841399F916B1842B00FAD610 /* RTSPMessage.m */; };
 		846119C716D3BF8D00468D98 /* CameraServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 846119C616D3BF8D00468D98 /* CameraServer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5200CE1E1CA93B2600AEE313 /* vmf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = vmf.framework; sourceTree = "<group>"; };
+		5200CE201CA978EB00AEE313 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		52D4DF8A1C984435007B9D5D /* icon_record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_record.png; sourceTree = SOURCE_ROOT; };
 		52D4DF8B1C984435007B9D5D /* icon_stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_stop.png; sourceTree = SOURCE_ROOT; };
-		52D4DF8E1C984C44007B9D5D /* vmf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = vmf.framework; path = "../../iOS_Sample/ios-sample/vmf.framework"; sourceTree = "<group>"; };
 		52D4DFC31C9BFC7F007B9D5D /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
 		8412559C16A035E3001749D9 /* Encoder Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Encoder Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		841255A016A035E3001749D9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -53,9 +55,8 @@
 		841255B416A035E3001749D9 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		841255B616A035E3001749D9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		841255B916A035E3001749D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		841255BC16A035E3001749D9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		841255BE16A035E3001749D9 /* EncoderDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EncoderDemoViewController.h; sourceTree = "<group>"; };
-		841255BF16A035E3001749D9 /* EncoderDemoViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EncoderDemoViewController.mm; sourceTree = "<group>"; };
+		841255BF16A035E3001749D9 /* EncoderDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EncoderDemoViewController.m; sourceTree = "<group>"; };
 		841255C616A035F1001749D9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		841255C816A035F9001749D9 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		841255CA16A09114001749D9 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -68,7 +69,7 @@
 		841255D716A714B7001749D9 /* NALUnit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NALUnit.cpp; sourceTree = "<group>"; };
 		841255D816A714B7001749D9 /* NALUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NALUnit.h; sourceTree = "<group>"; };
 		841255DA16A85472001749D9 /* RTSPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSPServer.h; sourceTree = "<group>"; };
-		841255DB16A85472001749D9 /* RTSPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSPServer.m; sourceTree = "<group>"; };
+		841255DB16A85472001749D9 /* RTSPServer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RTSPServer.mm; sourceTree = "<group>"; };
 		841255E316B14E44001749D9 /* RTSPClientConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSPClientConnection.h; sourceTree = "<group>"; };
 		841255E416B14E45001749D9 /* RTSPClientConnection.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RTSPClientConnection.mm; sourceTree = "<group>"; };
 		841399F816B1842B00FAD610 /* RTSPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSPMessage.h; sourceTree = "<group>"; };
@@ -82,8 +83,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5200CE211CA978EB00AEE313 /* CoreLocation.framework in Frameworks */,
 				841255CB16A09114001749D9 /* CoreVideo.framework in Frameworks */,
 				841255C916A035F9001749D9 /* CoreMedia.framework in Frameworks */,
+				5200CE1F1CA93B2600AEE313 /* vmf.framework in Frameworks */,
 				841255C716A035F1001749D9 /* AVFoundation.framework in Frameworks */,
 				841255A116A035E3001749D9 /* UIKit.framework in Frameworks */,
 				841255A316A035E3001749D9 /* Foundation.framework in Frameworks */,
@@ -117,7 +120,8 @@
 		8412559F16A035E3001749D9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				52D4DF8E1C984C44007B9D5D /* vmf.framework */,
+				5200CE201CA978EB00AEE313 /* CoreLocation.framework */,
+				5200CE1E1CA93B2600AEE313 /* vmf.framework */,
 				841255A016A035E3001749D9 /* UIKit.framework */,
 				841255A216A035E3001749D9 /* Foundation.framework */,
 				841255A416A035E3001749D9 /* CoreGraphics.framework */,
@@ -132,9 +136,8 @@
 				841255AF16A035E3001749D9 /* EncoderDemoAppDelegate.h */,
 				841255B016A035E3001749D9 /* EncoderDemoAppDelegate.m */,
 				841255B816A035E3001749D9 /* MainStoryboard_iPhone.storyboard */,
-				841255BB16A035E3001749D9 /* MainStoryboard_iPad.storyboard */,
 				841255BE16A035E3001749D9 /* EncoderDemoViewController.h */,
-				841255BF16A035E3001749D9 /* EncoderDemoViewController.mm */,
+				841255BF16A035E3001749D9 /* EncoderDemoViewController.m */,
 				846119C516D3BF8D00468D98 /* CameraServer.h */,
 				846119C616D3BF8D00468D98 /* CameraServer.m */,
 				841255DD16A85477001749D9 /* RTSP */,
@@ -179,7 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				841255DA16A85472001749D9 /* RTSPServer.h */,
-				841255DB16A85472001749D9 /* RTSPServer.m */,
+				841255DB16A85472001749D9 /* RTSPServer.mm */,
 				841255E316B14E44001749D9 /* RTSPClientConnection.h */,
 				841255E416B14E45001749D9 /* RTSPClientConnection.mm */,
 				841399F816B1842B00FAD610 /* RTSPMessage.h */,
@@ -215,7 +218,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = EncoderDemo;
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Geraint Davies";
 			};
 			buildConfigurationList = 8412559616A035E3001749D9 /* Build configuration list for PBXProject "Encoder Demo" */;
@@ -247,7 +250,6 @@
 				841255BA16A035E3001749D9 /* MainStoryboard_iPhone.storyboard in Resources */,
 				52D4DF8C1C984435007B9D5D /* icon_record.png in Resources */,
 				52D4DF8D1C984435007B9D5D /* icon_stop.png in Resources */,
-				841255BD16A035E3001749D9 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,12 +262,12 @@
 			files = (
 				841255AD16A035E3001749D9 /* main.m in Sources */,
 				841255B116A035E3001749D9 /* EncoderDemoAppDelegate.m in Sources */,
-				841255C016A035E3001749D9 /* EncoderDemoViewController.mm in Sources */,
+				841255C016A035E3001749D9 /* EncoderDemoViewController.m in Sources */,
 				841255CE16A47A7D001749D9 /* AVEncoder.mm in Sources */,
 				841255D116A4848E001749D9 /* VideoEncoder.m in Sources */,
 				841255D616A5AB8B001749D9 /* MP4Atom.m in Sources */,
 				841255D916A714B7001749D9 /* NALUnit.cpp in Sources */,
-				841255DC16A85472001749D9 /* RTSPServer.m in Sources */,
+				841255DC16A85472001749D9 /* RTSPServer.mm in Sources */,
 				841255E516B14E45001749D9 /* RTSPClientConnection.mm in Sources */,
 				841399FA16B1842B00FAD610 /* RTSPMessage.m in Sources */,
 				846119C716D3BF8D00468D98 /* CameraServer.m in Sources */,
@@ -291,14 +293,6 @@
 			name = MainStoryboard_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
-		841255BB16A035E3001749D9 /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				841255BC16A035E3001749D9 /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -313,6 +307,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -324,7 +320,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -342,11 +338,12 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -365,8 +362,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Encoder Demo/Encoder Demo-Prefix.pch";
 				INFOPLIST_FILE = "Encoder Demo/Encoder Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.gdcl.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -382,8 +381,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Encoder Demo/Encoder Demo-Prefix.pch";
 				INFOPLIST_FILE = "Encoder Demo/Encoder Demo-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				PRODUCT_BUNDLE_IDENTIFIER = "uk.co.gdcl.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

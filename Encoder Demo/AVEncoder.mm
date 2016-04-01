@@ -8,6 +8,7 @@
 
 #import "AVEncoder.h"
 #import "NALUnit.h"
+#import "Location.h"
 
 static unsigned int to_host(unsigned char* p)
 {
@@ -93,6 +94,7 @@ static unsigned int to_host(unsigned char* p)
     param_handler_t _paramsBlock;
     
     // estimate bitrate over first second
+    long long _startStreamingVideoTime;
     int _bitspersecond;
     double _firstpts;
 }
@@ -105,6 +107,7 @@ static unsigned int to_host(unsigned char* p)
 
 @synthesize bitspersecond = _bitspersecond;
 @synthesize firstpts = _firstpts;
+@synthesize startStreamingVideoTime = _startStreamingVideoTime;
 
 + (AVEncoder*) encoderForHeight:(int) height andWidth:(int) width
 {
@@ -139,6 +142,7 @@ static unsigned int to_host(unsigned char* p)
     _needParams = YES;
     _pendingNALU = nil;
     _firstpts = -1;
+    _startStreamingVideoTime = -1;
     _bitspersecond = 0;
 }
 
@@ -265,6 +269,15 @@ static unsigned int to_host(unsigned char* p)
     }
     CMTime prestime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
     double dPTS = (double)(prestime.value) / prestime.timescale;
+    //NSLog(@"IOS time stamp is %lf\n\n\n", dPTS);
+    //NSLog(@"VMF time stamp is %lf", (double)(vmf::getTimestamp()/1000.0));
+    NSDate* d = [NSDate dateWithTimeIntervalSince1970:dPTS]; //Then specify output format
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    [dateFormatter setDateFormat:@"HH:mm:ss"];
+    NSString* result = [dateFormatter stringFromDate:d];
+    //NSLog(@"Date = %@", result);
+    //_startStreamingVideoTime = (prestime.value) / prestime.timescale
     NSNumber* pts = [NSNumber numberWithDouble:dPTS];
     
     @synchronized(_times)

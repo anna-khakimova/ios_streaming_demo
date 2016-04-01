@@ -25,7 +25,7 @@ int writeVmfGpsCoordinateMetadata (std::string const& path, std::vector<Location
     
     try
     {
-        if (outStream.open(path, vmf::MetadataStream::ReadWrite))
+        if (outStream.open(path, vmf::MetadataStream::Update))
         {
             throw "Failed to open file!";
         }

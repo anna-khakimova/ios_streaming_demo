@@ -19,6 +19,7 @@
 {
     [super viewDidLoad];
     [self startPreview];
+    [CameraServer server].delegate = self;
 }
 
 - (void) willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -69,4 +70,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark CameraServerDelegate
+
+- (void)setIPAddrLabel: (NSString*) str
+{
+    self.serverAddress.text = str;
+}
+
 @end

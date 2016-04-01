@@ -7,6 +7,7 @@
 //
 
 #import "RTSPServer.h"
+#import "CameraServer.h"
 #import "RTSPClientConnection.h"
 #import "ifaddrs.h"
 #import "arpa/inet.h"
@@ -18,10 +19,10 @@
 
 {
     CFSocketRef _listener;
-    CFSocketRef _listenerVMF;
+    CFSocketRef _listenerVmf;
     
     CFSocketRef _vmfDataSocket;
-    BOOL vmfDataSocketSetup;
+    
     CFRunLoopSourceRef _vmfRls;
     BOOL vmfMetadataSessionSetup;
     
@@ -34,7 +35,7 @@
     std::vector<LocationData> gpsDataVector;
     std::vector<LocationData> buffer;
     //time in milliseconds
-    long long startStreamingMetadataTime;
+    long long _startVideoStreamTime;
     
     NSTimer *locationGenerationTimer;
     std::vector<LocationData> gpsGeneratedData;
@@ -43,13 +44,11 @@
 
 - (RTSPServer*) init:(NSData*) configData;
 - (void) onAccept:(CFSocketNativeHandle) childHandle;
-- (void) onVmfAccept:(CFSocketNativeHandle) childHandle;
+
 - (void) onVmfData:(CFDataRef) data;
 - (void) sendNewLocationOnTimer:(NSTimer*)timer;
 
-@property (readonly, getter=isVmfDataSocketSetup) BOOL vmfDataSocketSetup;
 @property (readonly, getter=isVmfMetadataSessionSetup) BOOL vmfMetadataSessionSetup;
-
 
 @end
 
@@ -79,18 +78,18 @@ static void onSocket (
 }
 
 static void onVmfSocket (
-                      CFSocketRef s,
-                      CFSocketCallBackType callbackType,
-                      CFDataRef address,
-                      const void *data,
-                      void *info
-                      )
+                         CFSocketRef s,
+                         CFSocketCallBackType callbackType,
+                         CFDataRef address,
+                         const void *data,
+                         void *info
+                         )
 {
     
     
     RTSPServer* server = (__bridge RTSPServer*)info;
     
-    if ([server isVmfDataSocketSetup])
+    if (server.vmfDataSocket)
         return;
     
     switch (callbackType)
@@ -134,8 +133,10 @@ static void onVmfDataSocket (
 
 @synthesize bitrate = _bitrate;
 @synthesize firstpts = _firstpts;
-@synthesize vmfDataSocketSetup;
+@synthesize startVideoStreamTime = _startVideoStreamTime;
+@synthesize vmfDataSocket = _vmfDataSocket;
 @synthesize vmfMetadataSessionSetup;
+@synthesize listenerVmf = _listenerVmf;
 
 + (RTSPServer*) setupListener:(NSData*) configData
 {
@@ -152,10 +153,11 @@ static void onVmfDataSocket (
     _configData = configData;
     _connections = [NSMutableArray arrayWithCapacity:10];
     _vmfDataSocket = nil;
+    _listenerVmf = nil;
     _vmfRls = nil;
-    vmfDataSocketSetup = FALSE;
+    
     vmfMetadataSessionSetup = FALSE;
-    startStreamingMetadataTime = -1;
+    _startVideoStreamTime = -1;
     locationGenerationTimer = nil;
     generatedDataIndex = 0;
     gpsGeneratedData.clear();
@@ -171,19 +173,16 @@ static void onVmfDataSocket (
     info.info = (void*)CFBridgingRetain(self);
     
     _listener = CFSocketCreate(nil, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, onSocket, &info);
-    _listenerVMF = CFSocketCreate(nil, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, onVmfSocket, &info);
     
     // must set SO_REUSEADDR in case a client is still holding this address
     int t = 1;
     setsockopt(CFSocketGetNative(_listener), SOL_SOCKET, SO_REUSEADDR, &t, sizeof(t));
-    setsockopt(CFSocketGetNative(_listenerVMF), SOL_SOCKET, SO_REUSEADDR, &t, sizeof(t));
     
     struct sockaddr_in addr;
-    struct sockaddr_in addrVmf;
     
     addr.sin_addr.s_addr = INADDR_ANY;
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(554);
+    addr.sin_port = htons(1234);
     CFDataRef dataAddr = CFDataCreate(nil, (const uint8_t*)&addr, sizeof(addr));
     CFSocketError e = CFSocketSetAddress(_listener, dataAddr);
     CFRelease(dataAddr);
@@ -193,24 +192,11 @@ static void onVmfDataSocket (
         NSLog(@"bind error %d", (int) e);
     }
     
-    addrVmf.sin_addr.s_addr = INADDR_ANY;
-    addrVmf.sin_family = AF_INET;
-    addrVmf.sin_port = htons(4321);
-    CFDataRef dataAddrVmf = CFDataCreate(nil, (const uint8_t*)&addrVmf, sizeof(addrVmf));
-    CFSocketError vmfSocketSetAddrErr = CFSocketSetAddress(_listenerVMF, dataAddrVmf);
-    CFRelease(dataAddrVmf);
-    
-    if (vmfSocketSetAddrErr)
-    {
-        NSLog(@"Failed vmf socket address setting: %d", (int) vmfSocketSetAddrErr);
-    }
-    
     CFRunLoopSourceRef rls = CFSocketCreateRunLoopSource(nil, _listener, 0);
-    CFRunLoopSourceRef rlsVmf = CFSocketCreateRunLoopSource(nil, _listenerVMF, 0);
+    
     CFRunLoopAddSource(CFRunLoopGetMain(), rls, kCFRunLoopCommonModes);
-    CFRunLoopAddSource(CFRunLoopGetMain(), rlsVmf, kCFRunLoopCommonModes);
+    
     CFRelease(rls);
-    CFRelease(rlsVmf);
     
     LocationData newLocation;
     newLocation.coordinate.latitude = 37.388350;
@@ -264,6 +250,38 @@ static void onVmfDataSocket (
         }
     }
     
+    if (!_listenerVmf)
+    {
+        CFSocketContext info;
+        memset(&info, 0, sizeof(info));
+        info.info = (void*)CFBridgingRetain(self);
+        
+        _listenerVmf = CFSocketCreate(nil, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, onVmfSocket, &info);
+        
+        // must set SO_REUSEADDR in case a client is still holding this address
+        int t = 1;
+        setsockopt(CFSocketGetNative(_listenerVmf), SOL_SOCKET, SO_REUSEADDR, &t, sizeof(t));
+        
+        struct sockaddr_in addrVmf;
+        
+        addrVmf.sin_addr.s_addr = INADDR_ANY;
+        addrVmf.sin_family = AF_INET;
+        addrVmf.sin_port = htons(4321);
+        CFDataRef dataAddrVmf = CFDataCreate(nil, (const uint8_t*)&addrVmf, sizeof(addrVmf));
+        CFSocketError vmfSocketSetAddrErr = CFSocketSetAddress(_listenerVmf, dataAddrVmf);
+        CFRelease(dataAddrVmf);
+        
+        if (vmfSocketSetAddrErr)
+        {
+            NSLog(@"Failed vmf socket address setting: %d", (int) vmfSocketSetAddrErr);
+        }
+        
+        CFRunLoopSourceRef rlsVmf = CFSocketCreateRunLoopSource(nil, _listenerVmf, 0);
+        
+        CFRunLoopAddSource(CFRunLoopGetMain(), rlsVmf, kCFRunLoopCommonModes);
+        
+        CFRelease(rlsVmf);
+    }
 }
 
 - (void) onVmfAccept:(CFSocketNativeHandle) childHandle
@@ -277,12 +295,22 @@ static void onVmfDataSocket (
     _vmfRls = CFSocketCreateRunLoopSource(nil, _vmfDataSocket, 0);
     CFRunLoopAddSource(CFRunLoopGetMain(), _vmfRls, kCFRunLoopCommonModes);
     
-    if (_vmfDataSocket != nil)
-        vmfDataSocketSetup = true;
-    
     NSString *msg = @"VMF";
     NSData* msgData = [msg dataUsingEncoding:NSUTF8StringEncoding];
-    CFSocketError e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(msgData), 2);
+    
+    CFDataRef msgDataRef = (__bridge CFDataRef)(msgData);
+    
+    __uint32_t bytes = CFDataGetLength(msgDataRef);
+    
+    NSData* data = [NSData dataWithBytes: &bytes length: sizeof(bytes)];
+    CFSocketError e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(data), 2);
+    
+    if (e)
+    {
+        NSLog(@"send size %ld", e);
+    }
+    
+    e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(msgData), 2);
     if (e)
     {
         NSLog(@"send %ld", e);
@@ -293,23 +321,21 @@ static void onVmfDataSocket (
 {
     if (CFDataGetLength(data) == 0)
     {
-        @synchronized(self)
+        if (_vmfDataSocket)
         {
-            if (_vmfDataSocket)
-                CFSocketInvalidate(_vmfDataSocket);
-            
+            CFSocketInvalidate(_vmfDataSocket);
             _vmfDataSocket = nil;
-            vmfDataSocketSetup = FALSE;
-            vmfMetadataSessionSetup = FALSE;
-            gpsDataVector.clear();
-            buffer.clear();
-            
-            if (locationManager)
-                [locationManager stopUpdatingLocation];
-            
-            generatedDataIndex = 0;
-            
         }
+            
+        vmfMetadataSessionSetup = FALSE;
+        gpsDataVector.clear();
+        buffer.clear();
+        [[CameraServer server].delegate setIPAddrLabel:@"Connection is lost"];
+            
+        //if (locationManager)
+        //   [locationManager stopUpdatingLocation];
+            
+        generatedDataIndex = 0;
         return;
     }
     
@@ -332,7 +358,20 @@ static void onVmfDataSocket (
     {
         NSString *msg = @"XML";
         NSData* msgData = [msg dataUsingEncoding:NSUTF8StringEncoding];
-        CFSocketError e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(msgData), 2);
+        
+        CFDataRef msgDataRef = (__bridge CFDataRef)(msgData);
+        
+        __uint32_t bytes = CFDataGetLength(msgDataRef);
+        
+        NSData* data = [NSData dataWithBytes: &bytes length: sizeof(bytes)];
+        CFSocketError e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(data), 2);
+        
+        if (e)
+        {
+            NSLog(@"send size %ld", e);
+        }
+        
+        e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(msgData), 2);
         if (e)
         {
             NSLog(@"send %ld", e);
@@ -343,8 +382,9 @@ static void onVmfDataSocket (
         buffer.clear();
         gpsDataVector.clear();
         
-        if (locationManager)
-            [locationManager startUpdatingLocation];
+        [[CameraServer server].delegate setIPAddrLabel:@"Metadata session is setup"];
+        //if (locationManager)
+          //  [locationManager startUpdatingLocation];
         
         generatedDataIndex = 0;
         
@@ -357,16 +397,57 @@ static void onVmfDataSocket (
         locationGenerationTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target: self selector:@selector(sendNewLocationOnTimer:) userInfo: nil repeats:YES];
         
         vmfMetadataSessionSetup = true;
-        //NSString *msg = [NSString stringWithFormat:@""];
-        startStreamingMetadataTime = vmf::getTimestamp();
+        vmf::FormatXML xml;
         
+        if (_startVideoStreamTime < 0)
+            throw "Start time of video streaming isn't initialized!";
         
-        vmf::MetadataStream::VideoSegment segment ("iOS", 0, startStreamingMetadataTime, 0, 720, 480);
+        std::shared_ptr<vmf::MetadataStream::VideoSegment> segment = std::make_shared<vmf::MetadataStream::VideoSegment>("iOS", 25, _startVideoStreamTime, 0, 720, 480);
         std::shared_ptr<vmf::MetadataSchema> spSchema = vmf::MetadataSchema::getStdSchema();
-    }
-    else
-    {
         
+        std::string segmentStr = xml.store({}, {}, {segment});
+        std::string schemaStr = xml.store({}, {spSchema});
+        
+        NSString *segmentMsg = [NSString stringWithUTF8String:segmentStr.c_str()];
+        NSData* msgSegData = [segmentMsg dataUsingEncoding:NSUTF8StringEncoding];
+        CFDataRef msgSegDataRef = (__bridge CFDataRef)(msgSegData);
+        
+        __uint32_t segBytes = CFDataGetLength(msgSegDataRef);
+        
+        NSData* segData = [NSData dataWithBytes: &segBytes length: sizeof(segBytes)];
+        CFSocketError e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(segData), 2);
+
+        if (e)
+        {
+            NSLog(@"send size %ld", e);
+        }
+        
+        e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(msgSegData), 2);
+        if (e)
+        {
+            NSLog(@"send %ld", e);
+        }
+        
+        NSString *schemaMsg = [NSString stringWithUTF8String:schemaStr.c_str()];
+        NSData* msgSchemaData = [schemaMsg dataUsingEncoding:NSUTF8StringEncoding];
+        
+        CFDataRef msgSchemaDataRef = (__bridge CFDataRef)(msgSchemaData);
+        __uint32_t schemaBytes = CFDataGetLength(msgSchemaDataRef);
+        
+        NSData* schemaData = [NSData dataWithBytes: &schemaBytes length: sizeof(schemaBytes)];
+        e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(schemaData), 2);
+        
+        if (e)
+        {
+            NSLog(@"send size %ld", e);
+        }
+
+        
+        e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(msgSchemaData), 2);
+        if (e)
+        {
+            NSLog(@"send %ld", e);
+        }
     }
 }
 
@@ -388,7 +469,38 @@ static void onVmfDataSocket (
     spLocationMetadata->setFieldValue("speed", 2);
     spLocationMetadata->setTimestamp(vmf::getTimestamp());
     
-    generatedDataIndex++;
+    vmf::FormatXML xml;
+    vmf::MetadataSet set;
+    
+    set.push_back(spLocationMetadata);
+    std::string mdStr = xml.store(set);
+    
+    NSString *msg = [NSString stringWithUTF8String:mdStr.c_str()];
+    NSData* msgData = [msg dataUsingEncoding:NSUTF8StringEncoding];
+    CFDataRef msgDataRef = (__bridge CFDataRef)(msgData);
+    __uint32_t size = [msgData length];
+    NSLog(@"Size of message is %d", size);
+    __uint32_t bytes = size;
+    
+    NSData* data = [NSData dataWithBytes: &bytes length: sizeof(bytes)];
+    
+    if (_vmfDataSocket)
+    {
+        CFSocketError e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(data), 2);
+        
+        if (e)
+        {
+            NSLog(@"send %ld", e);
+        }
+        
+        e = CFSocketSendData(_vmfDataSocket, NULL, msgDataRef, 2);
+        if (e)
+        {
+            NSLog(@"send %ld", e);
+        }
+        generatedDataIndex++;
+    }
+    
 }
 
 - (void) onVideoData:(NSArray*) data time:(double) pts
@@ -408,6 +520,19 @@ static void onVmfDataSocket (
     {
         NSLog(@"Client disconnected");
         [_connections removeObject:conn];
+    }
+    if ([_connections count] == 0)
+    {
+        @synchronized(self)
+        {
+            if (_listenerVmf)
+            {
+                CFSocketInvalidate(_listenerVmf);
+                _listenerVmf = nil;
+            }
+            
+            _startVideoStreamTime = -1;
+        }
     }
 }
 
@@ -431,7 +556,6 @@ static void onVmfDataSocket (
         {
             CFSocketInvalidate(_vmfDataSocket);
             _vmfDataSocket = nil;
-            vmfDataSocketSetup = false;
             vmfMetadataSessionSetup = false;
         }
         
@@ -441,10 +565,10 @@ static void onVmfDataSocket (
             _listener = nil;
         }
         
-        if (_listenerVMF != nil)
+        if (_listenerVmf != nil)
         {
-            CFSocketInvalidate(_listenerVMF);
-            _listener = nil;
+            CFSocketInvalidate(_listenerVmf);
+            _listenerVmf = nil;
         }
         
         if (_vmfRls != nil)
@@ -452,6 +576,8 @@ static void onVmfDataSocket (
             CFRunLoopRemoveSource(CFRunLoopGetMain(), _vmfRls, kCFRunLoopCommonModes);
             CFRelease(_vmfRls);
         }
+        
+        _startVideoStreamTime = -1;
     }
 }
 
@@ -502,7 +628,7 @@ static void onVmfDataSocket (
      });*/
     
     LocationData currentLocation;
-    long long timeSinceStartInSecond = (currentTime - startStreamingMetadataTime)/MILLISEC_PER_SEC;
+    long long timeSinceStartInSecond = (currentTime - _startVideoStreamTime)/MILLISEC_PER_SEC;
     
     if (newLocation == nil)
     {
@@ -520,6 +646,9 @@ static void onVmfDataSocket (
     currentLocation.altitude = newLocation.altitude;
     currentLocation.speed = newLocation.speed;
     
+    vmf::FormatXML xml;
+    vmf::MetadataSet set;
+    
     if (gpsDataVector.empty())
     {
         gpsDataVector.push_back (currentLocation);
@@ -533,14 +662,25 @@ static void onVmfDataSocket (
         spLocationMetadata->setFieldValue("accuracy", currentLocation.hAccuracy);
         spLocationMetadata->setFieldValue("speed", currentLocation.speed);
         spLocationMetadata->setTimestamp(currentLocation.time);
+        
+        set.push_back(spLocationMetadata);
+        std::string mdStr = xml.store(set);
+        
+        NSString *msg = [NSString stringWithUTF8String:mdStr.c_str()];
+        NSData* msgData = [msg dataUsingEncoding:NSUTF8StringEncoding];
+        CFSocketError e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(msgData), 2);
+        if (e)
+        {
+            NSLog(@"send %ld", e);
+        }
 
         //self.counterLabel.text = [NSString stringWithFormat:@"Locations Recorded: %lu", gpsData.size()];
     }
-    else if (timeSinceStartInSecond == ((gpsDataVector.back().time - startStreamingMetadataTime)/MILLISEC_PER_SEC))
+    else if (timeSinceStartInSecond == ((gpsDataVector.back().time - _startVideoStreamTime)/MILLISEC_PER_SEC))
     {
         buffer.push_back (currentLocation);
     }
-    else if ((timeSinceStartInSecond > ((gpsDataVector.back ().time - startStreamingMetadataTime)/MILLISEC_PER_SEC)))
+    else if ((timeSinceStartInSecond > ((gpsDataVector.back ().time - _startVideoStreamTime)/MILLISEC_PER_SEC)))
     {
          size_t bufSize = buffer.size();
          if (!buffer.empty())
@@ -580,6 +720,17 @@ static void onVmfDataSocket (
         spLocationMetadata->setFieldValue("accuracy", gpsDataVector.back().hAccuracy);
         spLocationMetadata->setFieldValue("speed", gpsDataVector.back().speed);
         spLocationMetadata->setTimestamp(gpsDataVector.back().time);
+        
+        set.push_back(spLocationMetadata);
+        std::string mdStr = xml.store(set);
+        
+        NSString *msg = [NSString stringWithUTF8String:mdStr.c_str()];
+        NSData* msgData = [msg dataUsingEncoding:NSUTF8StringEncoding];
+        CFSocketError e = CFSocketSendData(_vmfDataSocket, NULL, (__bridge CFDataRef)(msgData), 2);
+        if (e)
+        {
+            NSLog(@"send %ld", e);
+        }
         //self.counterLabel.text = [NSString stringWithFormat:@"Locations Recorded: %lu", gpsDataVector.size()];
     }
     

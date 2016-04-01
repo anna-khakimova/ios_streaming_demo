@@ -21,8 +21,12 @@
 - (void) onVideoData:(NSArray*) data time:(double) pts;
 - (void) shutdownConnection:(id) conn;
 - (void) shutdownServer;
+- (void) onVmfAccept:(CFSocketNativeHandle) childHandle;
 
 @property (readwrite, atomic) int bitrate;
 @property (readwrite, atomic) double firstpts;
+@property (readwrite) CFSocketRef listenerVmf;
+@property (readwrite) CFSocketRef vmfDataSocket;
+@property (readwrite) long long startVideoStreamTime;
 
 @end

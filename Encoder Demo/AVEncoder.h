@@ -30,5 +30,6 @@ typedef int (^param_handler_t)(NSData* params);
 
 @property (readonly, atomic) int bitspersecond;
 @property (readonly, atomic) double firstpts;
+@property (readonly, atomic) long long startStreamingVideoTime;
 
 @end

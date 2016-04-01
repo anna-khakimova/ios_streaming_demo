@@ -10,6 +10,7 @@
 #import "RTSPMessage.h"
 #import "NALUnit.h"
 #import "arpa/inet.h"
+#import "Location.h"
 
 void tonet_short(uint8_t* p, unsigned short s)
 {
@@ -148,6 +149,8 @@ static void onSocket (
     
 }
 
+
+
 static void onRTCP(CFSocketRef s,
                    CFSocketCallBackType callbackType,
                    CFDataRef address,
@@ -266,6 +269,8 @@ static void onRTCP(CFSocketRef s,
                 // !!
                 response = [msg createResponse:451 text:@"Need better error string here"];
             }
+            
+            
         }
         else if ([cmd caseInsensitiveCompare:@"play"] == NSOrderedSame)
         {
@@ -277,6 +282,9 @@ static void onRTCP(CFSocketRef s,
                 }
                 else
                 {
+                    if (_server.startVideoStreamTime < 0)
+                        _server.startVideoStreamTime = vmf::getTimestamp();
+                    
                     _state = Playing;
                     _bFirst = YES;
                     response = [msg createResponse:200 text:@"OK"];

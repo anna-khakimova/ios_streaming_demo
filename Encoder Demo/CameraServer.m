@@ -27,7 +27,8 @@ static CameraServer* theServer;
 
 
 @implementation CameraServer
-
+@synthesize delegate;
+@synthesize rtsp = _rtsp;
 + (void) initialize
 {
     // test recommended to avoid duplicate init via subclass
@@ -69,7 +70,7 @@ static CameraServer* theServer;
         [_encoder encodeWithBlock:^int(NSArray* data, double pts) {
             if (_rtsp != nil)
             {
-                _rtsp.firstpts = [_encoder firstpts];
+                _rtsp.firstpts = _encoder.firstpts;
                 _rtsp.bitrate = _encoder.bitspersecond;
                 [_rtsp onVideoData:data time:pts];
             }
@@ -96,7 +97,7 @@ static CameraServer* theServer;
 
 - (void) shutdown
 {
-    NSLog(@"shutting down server");
+    NSLog(@"Shutting down server");
     if (_session)
     {
         [_session stopRunning];
